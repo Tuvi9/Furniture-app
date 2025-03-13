@@ -1,0 +1,20 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  // NOTE: Update this to include the paths to all of your component files.
+  content: ["./app/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],
+  theme: {
+    extend: {
+      colors: {
+        seablue:'#4F63AC',
+        muteorange:'#FCA34D',
+      },
+      fontFamily: {
+        'dm-sans': ['DM-Sans'],
+        'dm-sans-bold': ['DM-Sans-Bold'],
+        'dm-sans-medium': ['DM-Sans-Medium'],
+      },
+    },
+  },
+  plugins: [],
+}

@@ -8,6 +8,20 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "fonts": [
+      {
+        "asset": "./assets/fonts/DMSans-Regular.ttf",
+        "family": "DM-Sans"
+      },
+      {
+        "asset": "./assets/fonts/DMSans-Bold.ttf",
+        "family": "DM-Sans-Bold"
+      },
+      {
+        "asset": "./assets/fonts/DMSans-Medium.ttf",
+        "family": "DM-Sans-Medium"
+      }
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -32,7 +46,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
