@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         seablue:'#4F63AC',
         muteorange:'#FCA34D',
+        lightgray: '#8D9BB5',
       },
       fontFamily: {
         'dm-sans': ['DM-Sans'],

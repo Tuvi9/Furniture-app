@@ -1,4 +1,4 @@
-import { Text, View, Pressable, Image } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import { router } from 'expo-router';
 import '../global.css'
 
@@ -20,7 +20,7 @@ function Index() {
         </View>
         <View className='flex flex-col items-center gap-y-8'>
           <View>
-            <Pressable 
+            <TouchableOpacity 
               className='px-[125] py-[25px] rounded-xl bg-seablue'
               onPress={() => router.push('/signup')}
             >
@@ -29,10 +29,10 @@ function Index() {
               >
                 Sign Up
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
           <View>
-            <Pressable
+            <TouchableOpacity
               onPress={() => router.push('/login')}
             >
               <Text 
@@ -40,7 +40,7 @@ function Index() {
               >
                 Log In
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
