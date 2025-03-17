@@ -14,6 +14,7 @@ module.exports = {
         'dm-sans': ['DM-Sans'],
         'dm-sans-bold': ['DM-Sans-Bold'],
         'dm-sans-medium': ['DM-Sans-Medium'],
+        'dm-sans-extrabold': ['DM-Sans-ExtraBold'],
       },
     },
   },

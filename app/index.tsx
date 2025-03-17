@@ -1,5 +1,6 @@
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import { router } from 'expo-router';
+import NavButton from "./components/navbutton";
 import '../global.css'
 
 function Index() {
@@ -19,18 +20,8 @@ function Index() {
           </View>
         </View>
         <View className='flex flex-col items-center gap-y-8'>
-          <View>
-            <TouchableOpacity 
-              className='px-[125] py-[25px] rounded-xl bg-seablue'
-              onPress={() => router.push('/signup')}
-            >
-              <Text 
-                className='text-white font-dm-sans-bold text-xl'
-              >
-                Sign Up
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <NavButton name='Sign In' address='/signup'/>
+          {/* Login */}
           <View>
             <TouchableOpacity
               onPress={() => router.push('/login')}

@@ -20,6 +20,10 @@
       {
         "asset": "./assets/fonts/DMSans-Medium.ttf",
         "family": "DM-Sans-Medium"
+      },
+      {
+        "asset": "./assets/fonts/DMSans-ExtraBold.ttf",
+        "family": "DM-Sans-ExtraBold"
       }
     ],
     "ios": {
