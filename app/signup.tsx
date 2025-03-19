@@ -66,7 +66,7 @@ function SignUpScreen() {
       {/* Checkbox */}
       <View className='flex flex-row justify-start items-center mt-10 ml-[50px]'>
         <Checkbox 
-          className='mt-0.5 mr-5 p-3'
+          className='mr-5 p-3'
           value={isChecked}
           onValueChange={setChecked}
           color={isChecked ? '#8D9BB5' : undefined}
