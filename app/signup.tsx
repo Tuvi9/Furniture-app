@@ -1,15 +1,53 @@
 import { useState } from "react";
-import { Text, View, SafeAreaView, TextInput } from "react-native";
+import { Text, View, SafeAreaView, TextInput, Alert, TouchableOpacity } from "react-native";
+import { supabase } from '@/utils/supabase';
 import BackButton from "./components/backbutton";
 import NavButton from "./components/navbutton";
 import Redirect from "./components/redirect";
 import Checkbox from "expo-checkbox";
 import Feather from '@expo/vector-icons/Feather';
+import { useRouter } from "expo-router";
 
 function SignUpScreen() {
 
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setChecked] = useState(false)
+  const router = useRouter();
+
+  async function signUpWithEmail() {
+    // Alert user that they are being signed up
+    setLoading(true)
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: { display_name: name }
+      }
+    })
+
+    if (error) {
+      Alert.alert("Error", error.message)
+      setLoading(false)
+      return
+    }
+    
+    if (session) {
+      // User is signed in, redirect to home
+      router.push('/home')
+    } else {
+      // Email confirmation required
+      Alert.alert("Success", "Please check your inbox for email verification!")
+    }
+    // Once account created
+    setLoading(false)
+  }
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)
@@ -29,6 +67,8 @@ function SignUpScreen() {
             className='w-full text-2xl font-dm-sans-bold border-2 border-lightgray p-5 rounded-2xl'
             placeholder='John Doe'
             placeholderTextColor="#AAAAAA"
+            value={name}
+            onChangeText={setName}
           />
         </View>
         {/* E-mail */}
@@ -40,6 +80,8 @@ function SignUpScreen() {
             placeholderTextColor="#AAAAAA"
             keyboardType="email-address"
             autoCapitalize="none"
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
         {/* Password */}
@@ -51,6 +93,8 @@ function SignUpScreen() {
               className='w-full text-2xl font-dm-sans-bold'
               placeholder='**********'
               placeholderTextColor="#AAAAAA"
+              value={password}
+              onChangeText={setPassword}
             />
             <View className='right-5'>
               <Feather 
@@ -75,7 +119,27 @@ function SignUpScreen() {
       </View>
       {/* Submit */}
       <View className='flex w-full justify-center items-center mt-10'>
-        <NavButton name='Sign Up' address='/home'/>
+        <TouchableOpacity 
+          className='px-[125px] py-[25px] rounded-xl bg-seablue'
+          onPress={() => {
+            // Checks if all fields are filled
+            if (!name || !email || !password) {
+              Alert.alert("Error", "Please fill in all fields")
+              return
+            }
+            // User must agree to terms of service before signing up
+            if (!isChecked) {
+              Alert.alert("Error", "Please agree to the terms and conditions")
+              return
+            }
+            signUpWithEmail()
+          }}
+          disabled={loading}
+        >
+          <Text className='text-white font-dm-sans-bold text-xl'>
+            {loading ? 'Loading...' : 'Sign Up'}
+          </Text>
+        </TouchableOpacity>
       </View>
       {/* Redirect */}
       <View className='flex-1' />
