@@ -1,13 +1,40 @@
 import { useState } from "react";
-import { Text, View, SafeAreaView, TextInput } from "react-native";
+import { Text, View, SafeAreaView, TextInput, Alert, TouchableOpacity } from "react-native";
 import BackButton from "./components/backbutton";
-import NavButton from "./components/navbutton";
 import Redirect from "./components/redirect";
 import Feather from '@expo/vector-icons/Feather';
+import { supabase } from "@/utils/supabase";
+import { useRouter } from 'expo-router';
 
 function LogInScreen() {
 
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter()
+
+  async function signInWithEmail() {
+    // Alert user that they are being signed up
+    setLoading(true)
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password
+    })
+
+    if (error) Alert.alert(error.message)
+    setLoading(false)
+
+    if (session) {
+      // User is signed in, redirect to home
+      router.push('/home')
+    }
+    // Once account created
+    setLoading(false)
+  }
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)
@@ -31,6 +58,8 @@ function LogInScreen() {
                 placeholderTextColor="#AAAAAA"
                 keyboardType="email-address"
                 autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
               />
             </View>
             {/* Password */}
@@ -42,6 +71,8 @@ function LogInScreen() {
                     className='w-full text-2xl font-dm-sans-bold'
                     placeholder='**********'
                     placeholderTextColor="#AAAAAA"
+                    value={password}
+                    onChangeText={setPassword}
                   />
                   <View className='right-5'>
                     <Feather 
@@ -54,14 +85,32 @@ function LogInScreen() {
               </View>
             </View>
             {/* Submit */}
-            <View className='mt-5'>
-              <NavButton name='Log In' address='/home'/>
+            <View className='flex w-full justify-center items-center mt-5'>
+              <TouchableOpacity 
+                className='w-[300px] h-[74px] rounded-xl bg-seablue flex items-center justify-center'
+                onPress={() => {
+                  // Checks if all fields are filled
+                  if (!email || !password) {
+                    Alert.alert("Error", "Please fill in all fields")
+                    return
+                  }
+                  // User must agree to terms of service before signing up
+                  signInWithEmail()
+                }}
+                disabled={loading}
+              >
+                <Text 
+                  className='text-white font-dm-sans-bold text-xl'
+                >
+                  {loading ? 'Loading...' : 'Log In'}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
       </View>
       {/* Redirect */}
-      <Redirect name='Sign Up' desc="Don’t have an account?" address='/signup'/>
+      <Redirect name='Sign Up' desc="Don't have an account?" address='/signup'/>
     </SafeAreaView>
   );
 }

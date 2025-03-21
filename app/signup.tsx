@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Text, View, SafeAreaView, TextInput, Alert, TouchableOpacity } from "react-native";
 import { supabase } from '@/utils/supabase';
 import BackButton from "./components/backbutton";
-import NavButton from "./components/navbutton";
 import Redirect from "./components/redirect";
 import Checkbox from "expo-checkbox";
 import Feather from '@expo/vector-icons/Feather';
@@ -120,7 +119,7 @@ function SignUpScreen() {
       {/* Submit */}
       <View className='flex w-full justify-center items-center mt-10'>
         <TouchableOpacity 
-          className='px-[125px] py-[25px] rounded-xl bg-seablue'
+          className='w-[300px] h-[74px] rounded-xl bg-seablue flex items-center justify-center'
           onPress={() => {
             // Checks if all fields are filled
             if (!name || !email || !password) {
