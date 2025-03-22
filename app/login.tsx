@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Text, View, SafeAreaView, TextInput, Alert, TouchableOpacity } from "react-native";
-import BackButton from "./components/backbutton";
+import BackButton from "./components/BackButton";
 import Redirect from "./components/redirect";
 import Feather from '@expo/vector-icons/Feather';
 import { supabase } from "@/utils/supabase";

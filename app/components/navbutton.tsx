@@ -1,19 +1,17 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import { router } from 'expo-router'
 
-type ValidRoutes = "/" | "/login" | "/signup" | "/home"
-
 interface ButtonInfo {
     name: string,
-    address: ValidRoutes
+    address: string
 }
 
 function NavButton({ name, address }: ButtonInfo) {
     return(
         <View>
             <TouchableOpacity 
-                className='px-[125px] py-[25px] rounded-xl bg-seablue'
-                onPress={() => router.push(address)}
+                className='w-[300px] h-[74px] rounded-xl bg-seablue flex items-center justify-center'
+                onPress={() => router.push(address as any)}
             >
                 <Text 
                     className='text-white font-dm-sans-bold text-xl'

@@ -10,8 +10,6 @@ module.exports = {
         muteorange:'#FCA34D',
         lightgray: '#8D9BB5',
         darkgray: '#303030',
-        gray: '#F5F5F5',
-        white: '#FFFFFF',
       },
       fontFamily: {
         'dm-sans': ['DM-Sans'],
