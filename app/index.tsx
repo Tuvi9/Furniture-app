@@ -1,6 +1,6 @@
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import { router } from 'expo-router';
-import NavButton from "./components/NavButton";
+import NavButton from "./components/navbutton";
 import '../global.css'
 
 function Index() {

@@ -51,6 +51,12 @@
           "backgroundColor": "#ffffff"
         }
       ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(NSPhotoLibraryUsageDescription) to access your photos"
+        }
+      ],
       "expo-font",
       "expo-asset"
     ],

@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, SafeAreaView, StyleSheet } from 'react-na
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons'
-import NavButton from '../components/NavButton';
+import NavButton from '../components/navbutton';
 
 function Profile () {
 
