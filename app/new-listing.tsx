@@ -14,6 +14,7 @@ function NewListing() {
     const [images, setImages] = useState<string[]>([]);
     // State for category dropdown
     const [dropdownVisible, setDropdownVisible] = useState(false);
+    const backAdress = process.env.EXPO_PUBLIC_IPADDRESS
 
     const router = useRouter()
 
@@ -26,6 +27,43 @@ function NewListing() {
         { label: "Decor", value: "decor" },
         { label: "Storage", value: "storage" }
     ];
+
+    const submitListing = async () => {
+        // Are all required fields filled
+        if (!title || !category || !price) {
+            Alert.alert("Error", "Please fill in all required fields");
+            return;
+        }
+
+        try {
+            // fetch for HTTP post request
+            const response = await fetch(`${backAdress}/api/products/create-furniture`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: title,
+                    category: category,
+                    price: price,
+                    description: description || ""
+                }),
+            });
+
+            const data = await response.json();
+            console.log("Response from server:", data);
+
+            if (data.success) {
+                Alert.alert("Success", "Furniture listing created successfully!");
+                router.push('/');
+            } else {
+                Alert.alert("Error", data.message || "Failed to create listing");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            Alert.alert("Connection Error", "Could not connect to server");
+        }
+    };
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -198,13 +236,7 @@ function NewListing() {
                 <View className='flex w-full justify-center items-center mt-10'>
                     <TouchableOpacity 
                     className='w-[300px] h-[74px] rounded-xl bg-seablue flex items-center justify-center'
-                    onPress={() => {
-                        // Checks if all fields are filled
-                        if (!title || !category || !price || images.length === 0) {
-                        Alert.alert("Error", "Please fill in all fields")
-                        return
-                        }
-                    }}
+                    onPress={submitListing}
                     >
                     <Text className='text-white font-dm-sans-bold text-xl'>Submit</Text>
                     </TouchableOpacity>
