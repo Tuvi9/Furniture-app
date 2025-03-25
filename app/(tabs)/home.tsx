@@ -1,19 +1,10 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import { useState } from 'react'
 import { Feather } from '@expo/vector-icons'
 import CategorySelector from '../components/CategorySelector'
 
 function Home () {
-    const backAdress = process.env.EXPO_PUBLIC_IPADDRESS
-    const [greeting, setGreeting] = useState('Loading...')
     const [selectedCategory, setSelectedCategory] = useState(1)
-
-    useEffect(() => {
-        axios.get(`${backAdress}/api/hello`)
-            .then(response => setGreeting(response.data))
-            .catch(err => console.error(err))
-    }, [])
 
     const handleCategorySelect = (categoryId: number) => {
         setSelectedCategory(categoryId)

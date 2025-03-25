@@ -17,23 +17,35 @@ function LogInScreen() {
   async function signInWithEmail() {
     // Alert user that they are being signed up
     setLoading(true)
-    const {
-      data: { session },
-      error,
-    } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password
-    })
+    try {
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+      })
 
-    if (error) Alert.alert(error.message)
-    setLoading(false)
+      if (error) {
+        console.error('Login error:', error);
+        Alert.alert("Error", error.message);
+        return;
+      }
 
-    if (session) {
+      if (!session) {
+        console.error('No session created');
+        Alert.alert("Error", "Failed to create session");
+        return;
+      }
+      
       // User is signed in, redirect to home
       router.push('/home')
+    } catch (error) {
+      console.error('Unexpected error during login:', error);
+      Alert.alert("Error", "An unexpected error occurred");
+    } finally {
+      setLoading(false)
     }
-    // Once account created
-    setLoading(false)
   }
 
   const toggleShowPassword = () => {

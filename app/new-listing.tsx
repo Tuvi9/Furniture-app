@@ -53,6 +53,14 @@ function NewListing() {
         }
 
         try {
+            // Supabase JWT token
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                Alert.alert("Error", "You must be logged in to create a listing");
+                return;
+            }
+
+            console.log("Session token:", session.access_token);
 
             const imageUri = images[0];
             // Create a unique name for the image
@@ -88,19 +96,18 @@ function NewListing() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session.access_token}`
                 },
                 body: JSON.stringify({
                     title: title,
                     category: category,
                     price: price,
                     description: description || "",
-                    // Insert the imageUrl we got from supabase storage into furnitures
                     imageUrl: publicUrl
                 }),
             });
 
             const data = await backendResponse.json();
-            console.log("Response from server:", data);
 
             if (data.success) {
                 Alert.alert("Success", "Furniture listing created successfully!");
