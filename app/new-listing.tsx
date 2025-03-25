@@ -4,6 +4,17 @@ import { useState } from "react";
 import Feather from '@expo/vector-icons/Feather';
 import * as ImagePicker from 'expo-image-picker';
 import { supabase } from '@/utils/supabase';
+import * as FileSystem from 'expo-file-system';
+
+// base64 converts binary data into strings of letter to stop an image from corrupting
+const decode = (base64: string) => {
+    const binaryString = atob(base64);
+    const bytes = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+};
 
 function NewListing() {
 
@@ -44,15 +55,22 @@ function NewListing() {
         try {
 
             const imageUri = images[0];
+            // Create a unique name for the image
             const fileName = `${Date.now()}-${imageUri.split('/').pop()}`
 
-            const response = await fetch(imageUri);
-            const blob = await response.blob();
+            // Convert image to base 64 for safe transmission
+            const base64 = await FileSystem.readAsStringAsync(imageUri, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
 
-            // User images get store in supabase
+            // 1/2 User images get stored in supabase
             const { data: imageUpload, error: imageUploadError } = await supabase.storage
-                .from('furniture')
-                .upload(fileName, blob)
+            .from('furniture')
+            .upload(fileName, decode(base64), {
+                contentType: 'image/jpeg',
+                cacheControl: '3600',
+                upsert: false
+            });
 
             if (imageUploadError) {
                 console.error('Error uploading image:', imageUploadError);
@@ -60,12 +78,12 @@ function NewListing() {
                 return;
             }
 
-            // Get the created furnitures imageUrl
+            // 2/3 Get the public URL for the uploaded image
             const { data: { publicUrl } } = supabase.storage
                 .from('furniture')
                 .getPublicUrl(fileName)
 
-            // fetch for HTTP post request
+            // 3/3 send data to backend
             const backendResponse = await fetch(`${backAdress}/api/products/create-furniture`, {
                 method: 'POST',
                 headers: {
@@ -96,6 +114,7 @@ function NewListing() {
         }
     };
 
+    // Opens device gallery
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
@@ -103,7 +122,7 @@ function NewListing() {
 
         console.log(result);
 
-        // Add image to the end of the array
+        // Store image in our array
         if(!result.canceled) {
             setImages([...images, result.assets[0].uri])
         }
