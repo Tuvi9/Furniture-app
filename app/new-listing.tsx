@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router'
 import { useState } from "react";
 import Feather from '@expo/vector-icons/Feather';
 import * as ImagePicker from 'expo-image-picker';
+import { supabase } from '@/utils/supabase';
 
 function NewListing() {
 
@@ -35,9 +36,37 @@ function NewListing() {
             return;
         }
 
+        if (images.length === 0) {
+            Alert.alert("Error", "Please upload at least one image");
+            return;
+        }
+
         try {
+
+            const imageUri = images[0];
+            const fileName = `${Date.now()}-${imageUri.split('/').pop()}`
+
+            const response = await fetch(imageUri);
+            const blob = await response.blob();
+
+            // User images get store in supabase
+            const { data: imageUpload, error: imageUploadError } = await supabase.storage
+                .from('furniture')
+                .upload(fileName, blob)
+
+            if (imageUploadError) {
+                console.error('Error uploading image:', imageUploadError);
+                Alert.alert("Error", "Failed to upload image");
+                return;
+            }
+
+            // Get the created furnitures imageUrl
+            const { data: { publicUrl } } = supabase.storage
+                .from('furniture')
+                .getPublicUrl(fileName)
+
             // fetch for HTTP post request
-            const response = await fetch(`${backAdress}/api/products/create-furniture`, {
+            const backendResponse = await fetch(`${backAdress}/api/products/create-furniture`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -46,11 +75,13 @@ function NewListing() {
                     title: title,
                     category: category,
                     price: price,
-                    description: description || ""
+                    description: description || "",
+                    // Insert the imageUrl we got from supabase storage into furnitures
+                    imageUrl: publicUrl
                 }),
             });
 
-            const data = await response.json();
+            const data = await backendResponse.json();
             console.log("Response from server:", data);
 
             if (data.success) {
@@ -68,7 +99,6 @@ function NewListing() {
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
-            quality: 1,
         })
 
         console.log(result);
