@@ -60,8 +60,6 @@ function NewListing() {
                 return;
             }
 
-            console.log("Session token:", session.access_token);
-
             const imageUri = images[0];
             // Create a unique name for the image
             const fileName = `${Date.now()}-${imageUri.split('/').pop()}`
@@ -111,7 +109,7 @@ function NewListing() {
 
             if (data.success) {
                 Alert.alert("Success", "Furniture listing created successfully!");
-                router.push('/');
+                router.push('/home');
             } else {
                 Alert.alert("Error", data.message || "Failed to create listing");
             }
