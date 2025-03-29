@@ -11,12 +11,12 @@ const images = {
 };
 
 const categories = [
-  { id: 1, title: 'Popular', icon: images.popular },
-  { id: 2, title: 'Chair', icon: images.chair },
-  { id: 3, title: 'Table', icon: images.table },
-  { id: 4, title: 'Armchair', icon: images.armchair },
-  { id: 5, title: 'Bed', icon: images.bed },
-  { id: 6, title: 'Lamp', icon: images.lamp }
+  { id: 0, title: 'Popular', icon: images.popular },
+  { id: 1, title: 'Chair', icon: images.chair },
+  { id: 2, title: 'Table', icon: images.table },
+  { id: 3, title: 'Armchair', icon: images.armchair },
+  { id: 4, title: 'Bed', icon: images.bed },
+  { id: 5, title: 'Lamp', icon: images.lamp }
 ];
 
 type CategorySelectorProps = {

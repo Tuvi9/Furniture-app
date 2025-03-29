@@ -28,18 +28,56 @@ function Home () {
     const [listings, setListings] = useState<Furniture[]>([])
     const [loading, setLoading] = useState(true)
 
-    const handleCategorySelect = (categoryId: number) => {
+    // the five possible categories
+    const getCategoryName = (id: number): string => {
+        switch(id) {
+            case 1: return 'Chair';
+            case 2: return 'Table';
+            case 3: return 'Armchair';
+            case 4: return 'Bed';
+            case 5: return 'Lamp';
+            default: return "";
+        }
+    }
+
+    const handleCategorySelect = async (categoryId: number) => {
+        // currently selected category
         setSelectedCategory(categoryId)
-        // Here you would fetch products for the selected category
-        console.log(`Selected category: ${categoryId}`)
+        setLoading(true)
+        try {
+            // mathces the current id to its respective category name
+            const categoryName = getCategoryName(categoryId);
+
+            const { data, error } = await supabase
+                .from('furniture')
+                .select('*')
+                // returns only those listings in the current category
+                .eq('category', categoryName.toLowerCase())
+            
+            if (error) {
+                console.log('Error fetching listing', error)
+                return
+            }
+            setListings(data || [])
+        } catch (error) {
+            console.log('Error', error)
+        } finally {
+            setLoading(false)
+        }
     }
 
     // Fetch all available listings
     const fetchData = async() => {
+        setLoading(true)
         try {
+            // on opening category id
+            const categoryName = getCategoryName(selectedCategory)
+
             const { data, error } = await supabase
                 .from('furniture')
                 .select('*')
+                // mathces the current id to its respective category name
+                .eq('category', categoryName.toLowerCase())
 
             if (error) {
                 console.error("Error fetching listings", error)

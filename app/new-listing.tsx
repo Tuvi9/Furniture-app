@@ -33,11 +33,9 @@ function NewListing() {
     const categories = [
         { label: "Chair", value: "chair" },
         { label: "Table", value: "table" },
-        { label: "Sofa", value: "sofa" },
+        { label: "Armchair", value: "sofa" },
         { label: "Bed", value: "bed" },
-        { label: "Lighting", value: "lighting" },
-        { label: "Decor", value: "decor" },
-        { label: "Storage", value: "storage" }
+        { label: "Lamp", value: "lamp"},
     ];
 
     const submitListing = async () => {
