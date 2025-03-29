@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Feather } from '@expo/vector-icons'
 import CategorySelector from '../components/CategorySelector'
 import { supabase } from '@/utils/supabase'
+import { useRouter } from 'expo-router'
 
 interface Furniture {
     id: string,
@@ -27,6 +28,7 @@ function Home () {
     const [selectedCategory, setSelectedCategory] = useState(1)
     const [listings, setListings] = useState<Furniture[]>([])
     const [loading, setLoading] = useState(true)
+    const router = useRouter()
 
     // the five possible categories
     const getCategoryName = (id: number): string => {
@@ -104,6 +106,10 @@ function Home () {
                 ...cardShadow
             }}
             className='m-2'
+            onPress={() => router.push({
+                pathname: '/detailed-listing',
+                params: { listing: JSON.stringify(item) }
+            })}
         >
             <View className='bg-white rounded-xl overflow-hidden'>
                 <Image 

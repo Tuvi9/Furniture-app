@@ -16,6 +16,7 @@ function RootLayout() {
         <Stack.Screen name='signup' />
         <Stack.Screen name='login' />
         <Stack.Screen name='new-listing'/>
+        <Stack.Screen name='detailed-listing' />
         <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
       </Stack>
     </>
