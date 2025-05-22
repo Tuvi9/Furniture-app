@@ -1,6 +1,4 @@
-# Welcome to your Expo app 👋
-
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Furniture marketplace
 
 ## Get started
 
@@ -16,35 +14,29 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
     npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+3. A .env file that connects to a supabase PostgreSQL database
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   ```bash
+   EXPO_PUBLIC_IPADDRESS,
+   EXPO_PUBLIC_SUPABASE_URL
+   EXPO_PUBLIC_SUPABASE_ANON_KEY
+   ```  
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Current problems
 
-## Get a fresh project
+With expos newest SDK 53 the react libray NativeWind currently doesn't support it so until this gets
+fixed the project is not runnable on Expo Go Ios since it always requires the latest SDK
 
-When you're ready, run:
+## Possible fixes
 
-```bash
-npm run reset-project
-```
+It is possible to build a custom dev client which runs a older version SDK like 52.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+# My experience coding this project
 
-## Learn more
+This was my firs expierience with React Native and using the framework Expo. The way I ended up coding this app was only using the figma prototype given to me. This was significantly slower then following the documentation but I believe a more open approach allowed be to deepen my learning as I had to use more of my own brain to read the documentation, look up youtube tutorials and felt more control over my project.
 
-To learn more about developing your project with Expo, look at the following resources:
+The one sorta fatal flaw I made was not using React Natives default styling components and looking for an alternative I was more comfortable with which was NativeWind which is a React Native library that bring TailWinds CSS classes over to React Native but with the newest SDK 53 since the team behind NativeWind is pretty small they haven't updated it yet to support the newest SDK which breaks my project currently.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Overall I'm happy with this project I am really bummed out what happened at the end and that I can't present a complete project but that blame is on me for choosing this stack.
 
-## Join the community
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
